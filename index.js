@@ -5,7 +5,10 @@ const server = new MyLib();
 // TODO: add middlewars
 // TODO: compression 
 
-
+server.beforeEach((req, res, next) => {
+    console.log("Global middleware");
+    next()
+})
 
 function helloWorld(req, res, next) {
     console.log("Hello world from GET /hello endpoint middleware");
