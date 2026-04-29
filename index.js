@@ -1,11 +1,15 @@
 const MyLib = require('./lib/myLib');
+const userRouter = require("./router/userRouter")
 
-const server = new MyLib();
+
+const app = new MyLib();
 
 // TODO: add middlewars
 // TODO: compression 
 
-server.beforeEach((req, res, next) => {
+
+
+app.use((req, res, next) => {
     console.log("Global middleware");
     next()
 })
@@ -15,26 +19,30 @@ function helloWorld(req, res, next) {
 
     // next();
 }
-server.get("/hello", helloWorld, (req, res) => {
+app.use('/users', userRouter);
+
+app.get("/hello", helloWorld, (req, res) => {
     console.log("Hello from the get endpoint callback")
+
+
 
     res.status(200).json({ message: "Success" })
 });
 
-// server.post("/post", (req, res) => {
+// app.post("/post", (req, res) => {
 //     console.log("Hello from post endpoint");
 //     res.status(200).json({ message: "Hello world" });
 // });
 
-// server.patch('/patching/:name', (req, res) => {
+// app.patch('/patching/:name', (req, res) => {
 //     const name = req.params.name;
 // });
 
-// server.delete("/post", (req, res) => {
+// app.delete("/post", (req, res) => {
 
 // })
 
-server.listen(3000, () => {
-    console.log(`Server listening on http://localhost:${3000}`)
+app.listen(3000, () => {
+    console.log(`app listening on http://localhost:${3000}`)
 })
 
